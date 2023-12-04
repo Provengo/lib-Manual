@@ -1,0 +1,46 @@
+= Manual Action Library
+_Provengo Core Team_
+
+A library for defining manual actions and validations. Useful for generating https://docs.provengo.tech/ProvengoCli/0.9.5/subcommands/gen-book.html[manual test books], but can also be used as a placeholder actuation layer before a real automation is implemented.
+
+This library supports actions, validations, and notes. There is also support for generating test books steps (for HTML and Excel formats).
+
+TIP: To see an example of this library in action, see the link:example[] directory, which contains a Provengo project with manual instructions for https://en.wikipedia.org/wiki/Wind_the_Bobbin_Up[a famous nursery rhyme].
+
+CAUTION: CONTPOINT
+
+== In this Repo
+
+This is a standard Provengo project folder, so you can expect the usual file structure. Listed below are files of interest:
+
+xref:data/recommendations.js[]::
+    Sample lookup table, shown in the above code;
+xref:lib/lut.js[]::
+    The library itself. Put this file in your project's `lib/` directory in order to use it.
+xref:spec/js/sample-recommendations.js[]::
+    A sample client code for this library. Creates test cases based on the lookup table defined in xref:data/recommendations.js[].
+xref:meta-spec/book-writer.js[]::
+    A manual test book creation script. Uses a method from the library to handle LUT library events.
+xref:Reference.adoc[]::
+    API Reference of the library.
+
+== Installation
+
+To install, place the library's source file, xref:lib/lut.js[], in the `lib` folder of your project. To download directly from this site, write the following snippet at your project's root directory:
+
+[source, bash]
+----
+curl https://raw.githubusercontent.com/Provengo/Lib-LuT/main/lib/lut.js > lib/lut.js
+----
+
+== Other Places in the Provengoverse
+
+* https://docs.provengo.tech[The Provengo tool Documentation]
+* https://www.youtube.com/@provengo[Provengo's YouTube Channel]
+* https://provengo.tech[Provengo's Main Site]
+
+---
+
+Enjoy, and we hope you find it useful! Feel free to fork, improve, and share your version of this library!
+
+-- Provengo Engineering
