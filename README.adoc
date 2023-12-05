@@ -19,7 +19,75 @@ curl https://raw.githubusercontent.com/Provengo/Lib-LuT/main/lib/lut.js > lib/Ma
 
 == Library Reference
 
-CONTPOINT
+=== Static Methods
+
+==== `Manual.defineUser(sessionName)`
+
+Creates a new manual session object, with the given name. See session reference below.
+
+==== `Manual.any`
+An event set that contains all events from this library, from all sessions. For example, to wait for any of the Manual library events, use `waitFor(Manual.any)`.
+
+==== `Manual.addTestBookStep(event, format)`
+Adds a test book step for Manual library events, and ignores other events. Returns `true` if a manual step was added to the current book.
+
+Parameters:
+
+`event`:
+    The event that may or may not be a Manual library event. 
+
+`format`:
+    Optional. Either "html" (default), or "qc-xls". The former generates a step with richer markup, whereas the latter creates a plain-text step description.
+
+Returns: `true` if a step was added to the test book, and `false` otherwise.
+
+=== `UserSession`
+
+A `UserSession` object describes a single user session during a manual test. To create a new object of this type, call `Manual.defineUser(name)` and pass the user session name (e.g. "customer", "admin").
+
+[NOTE]
+====
+This library defines three step types: Action, Validation, and Note. Each step type has two methods associated with it: one for performing it (i.e. `sessions.doX`) and one for referring to its event (i.e. `session.xEvent`).
+
+The `session.doX` methods are really just convenience methods. The following two lines are equivalent:
+
+[source, javascript]
+----
+request(session.actionEvent("do something")); // explicit form
+session.doAct("do something"); // convenience shorthand
+----
+====
+
+==== `session.doAct(action, details, validation)`
+
+Request a `session.actionEvent(action, details, validation)`. See below.
+
+==== `session.actionEvent(action, details, validation)`
+
+An event telling the tester to take some action, for example click a button or type some text. Can optionally contain details and validation.
+
+Parameters:
+
+`action`:
+    String. The action that the tester should perform.
+`details`:
+    Optional, String. Any further details about `action`.
+`validation`:
+    Optional, String. A validation step that needs to be done immediately after performing `action`.
+
+.An action step shown in a HTML test book.
+image::img/act.png[]
+
+==== `session.doNote`
+
+==== `session.noteEvent`
+
+==== `session.doValidate`
+
+==== `session.validationEvent`
+
+==== `session.any`
+An event set containing all events from `session`.
 
 == Other Places in the Provengoverse
 
