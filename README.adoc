@@ -13,7 +13,7 @@ To install, place the library's source file, xref:wind-bobbin-up/lib/ManualLib.j
 
 [source, bash]
 ----
-curl https://raw.githubusercontent.com/Provengo/lib-Manual/main/wind-bobbin-up/lib/lut.js > lib/ManualLib.js
+curl https://raw.githubusercontent.com/Provengo/lib-Manual/main/wind-bobbin-up/lib/ManualLib.js > lib/ManualLib.js
 ----
 
 == Library Reference
