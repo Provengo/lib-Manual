@@ -33,9 +33,9 @@ Adds a test book step for Manual library events, and ignores other events. Retur
 
 Parameters:
 
-`event`:
+`event`::
     The event that may or may not be a Manual library event. 
-`format`:
+`format`::
     Optional. Either "html" (default), or "qc-xls". The former generates a step with richer markup, whereas the latter creates a plain-text step description.
 
 Returns: `true` if a step was added to the test book, and `false` otherwise.
@@ -67,11 +67,11 @@ An event telling the tester to take some action, for example to click a button o
 
 Parameters:
 
-`action`:
+`action`::
     String. The action that the tester should perform.
-`details`:
+`details`::
     Optional, String. Any further details about `action` the tester needs to know.
-`validation`:
+`validation`::
     Optional, String. A validation step that needs to be done immediately after performing `action`.
 
 .An action step shown in a HTML test book.
@@ -87,9 +87,9 @@ An event informing the tester of something important, often some context about t
 
 Parameters:
 
-`text`:
+`text`::
     String. Main note text.
-`details`:
+`details`::
     Optional, String. Additional details for the note.
 
 .An note step shown in a HTML test book.
@@ -105,9 +105,9 @@ An event instructing the tester to validate a condition. Normally used to valida
 
 Parameters:
 
-`condition`:
+`condition`::
     String. The condition that should be validated.
-`details`:
+`details`::
     Optional, String. Additional validation details, if needed.
 
 .An validation step shown in a HTML test book.
