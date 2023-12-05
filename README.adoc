@@ -1,11 +1,11 @@
 = Manual Action Library
 _Provengo Core Team_
 
-A library for defining manual actions and validations. Useful for generating https://docs.provengo.tech/ProvengoCli/0.9.5/subcommands/gen-book.html[manual test books], but can also be used as a placeholder actuation layer before a real automation is implemented.
+A library for defining manual actions and validations. Useful for generating https://docs.provengo.tech/ProvengoCli/0.9.5/subcommands/gen-book.html[manual test books], but can also be used as a placeholder actuation layer before another automation layer is implemented.
 
 This library supports actions, validations, and notes. There is also support for generating test books steps (for HTML and Excel formats), and common event sets.
 
-TIP: To see an example of this library in action, see the link:wind-bobbin-up[] directory, which contains a Provengo project with manual instructions for https://en.wikipedia.org/wiki/Wind_the_Bobbin_Up[a famous nursery rhyme].
+TIP: To see an example of this library in action, look at the link:wind-bobbin-up[] directory, which contains a Provengo project with manual instructions for https://en.wikipedia.org/wiki/Wind_the_Bobbin_Up[a famous nursery rhyme].
 
 == Installation
 
@@ -23,7 +23,7 @@ curl https://raw.githubusercontent.com/Provengo/Lib-LuT/main/lib/lut.js > lib/Ma
 
 ==== `Manual.defineUser(sessionName)`
 
-Creates a new manual session object, with the given name. See session reference below.
+Creates a new manual session object, with the given name. See session object reference below.
 
 ==== `Manual.any`
 An event set that contains all events from this library, from all sessions. For example, to wait for any of the Manual library events, use `waitFor(Manual.any)`.
@@ -35,7 +35,6 @@ Parameters:
 
 `event`:
     The event that may or may not be a Manual library event. 
-
 `format`:
     Optional. Either "html" (default), or "qc-xls". The former generates a step with richer markup, whereas the latter creates a plain-text step description.
 
@@ -47,7 +46,7 @@ A `UserSession` object describes a single user session during a manual test. To 
 
 [NOTE]
 ====
-This library defines three step types: Action, Validation, and Note. Each step type has two methods associated with it: one for performing it (i.e. `sessions.doX`) and one for referring to its event (i.e. `session.xEvent`).
+This library defines three step types: `Action`, `Validation`, and `Note`. Each step type has two methods associated with it: one for performing it (i.e. `session.doX`) and one for referring to its event (i.e. `session.xEvent`).
 
 The `session.doX` methods are really just convenience methods. The following two lines are equivalent:
 
@@ -64,27 +63,55 @@ Request a `session.actionEvent(action, details, validation)`. See below.
 
 ==== `session.actionEvent(action, details, validation)`
 
-An event telling the tester to take some action, for example click a button or type some text. Can optionally contain details and validation.
+An event telling the tester to take some action, for example to click a button or type some text. Can optionally contain details and validation.
 
 Parameters:
 
 `action`:
     String. The action that the tester should perform.
 `details`:
-    Optional, String. Any further details about `action`.
+    Optional, String. Any further details about `action` the tester needs to know.
 `validation`:
     Optional, String. A validation step that needs to be done immediately after performing `action`.
 
 .An action step shown in a HTML test book.
 image::img/act.png[]
 
-==== `session.doNote`
+==== `session.doNote(text, details)`
 
-==== `session.noteEvent`
+Requests a `session.noteEvent(text, details)`. See below.
 
-==== `session.doValidate`
+==== `session.noteEvent(text, details)`
 
-==== `session.validationEvent`
+An event informing the tester of something important, often some context about the action or some non-actionable information.
+
+Parameters:
+
+`text`:
+    String. Main note text.
+`details`:
+    Optional, String. Additional details for the note.
+
+.An note step shown in a HTML test book.
+image::img/note.png[]
+
+==== `session.doValidate(condition, details)`
+
+Request a `session.validateEvent(condition, details)`. See below.
+
+==== `session.validationEvent(condition, details)`
+
+An event instructing the tester to validate a condition. Normally used to validate a condition that depends on multiple actions that precede the validation. In these cases, we'll see a series of ``actionEvent``s, followed by one or more ``validationEvent``s.
+
+Parameters:
+
+`condition`:
+    String. The condition that should be validated.
+`details`:
+    Optional, String. Additional validation details, if needed.
+
+.An validation step shown in a HTML test book.
+image::img/validate.png[]
 
 ==== `session.any`
 An event set containing all events from `session`.
