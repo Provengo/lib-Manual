@@ -5,7 +5,7 @@ A library for defining manual actions and validations. Useful for generating htt
 
 This library supports actions, validations, and notes. There is also support for generating test books steps (for HTML and Excel formats), and common event sets.
 
-TIP: To see an example of this library in action, look at the link:wind-bobbin-up[] directory, which contains a Provengo project with manual instructions for https://en.wikipedia.org/wiki/Wind_the_Bobbin_Up[a famous nursery rhyme].
+TIP: To see an example of this library in action, look at the link:wind-bobbin-up[] directory, which contains a Provengo project with manual instructions for https://en.wikipedia.org/wiki/Wind_the_Bobbin_Up[a famous nursery rhyme]. The resulting test book is https://content.provengo.tech/libs/manual/wind-bobbin-up/[here].
 
 == Installation
 
