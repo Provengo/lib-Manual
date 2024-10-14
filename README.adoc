@@ -7,6 +7,8 @@ This library supports actions, validations, and notes. There is also support for
 
 TIP: To see an example of this library in action, look at the link:wind-bobbin-up[] directory, which contains a Provengo project with manual instructions for https://en.wikipedia.org/wiki/Wind_the_Bobbin_Up[a famous nursery rhyme].
 
+INFO: For changelog, see <<Changelog, bottom of this file>>.
+
 == Installation
 
 To install, place the library's source file in the `lib` folder of your project. The library is available at https://github.com/Provengo/lib-Manual/releases[the release page].
@@ -120,7 +122,7 @@ image::img/validate.png[]
 ==== `session.any`
 An event set containing all events from `session`.
 
-== Other Places in the Provengoverse
+== Other Interesting Places in the Provengoverse
 
 * https://docs.provengo.tech[The Provengo tool Documentation]
 * https://www.youtube.com/@provengo[Provengo's YouTube Channel]
@@ -131,3 +133,12 @@ An event set containing all events from `session`.
 Enjoy, and we hope you find it useful! Feel free to fork, improve, and share your version of this library!
 
 -- Provengo Engineering
+
+== Changelog
+
+=== 2024-10-14
+* More resilient value-to-html conversion.
+* Some improvements to the README.
+
+=== 2023-12-06
+* Initial Version
