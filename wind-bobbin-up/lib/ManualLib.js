@@ -4,9 +4,9 @@
 const Manual = (function(){
     const __LIB_SIG__ = "Manual";
     const TYPE_TO_TITLE = {
-        "action":     "Act<br/>🔨",
-        "validation": "Validate<br/>🔎",
-        "note":       "Note<br/>🗒️"
+        "action":     "Act 🔨",
+        "validation": "Validate 🔎",
+        "note":       "Note 🗒️"
     };
 
     function evt(title, eventType, session) { 
@@ -117,7 +117,7 @@ const Manual = (function(){
     }
     
     function makeSession(name) {
-        return {
+        const retVal = {
             noteEvent:       function(text, details){ return noteEvent(name, text, details); },
             doNote:          function(text, details){ return doNote(name, text, details); },
             actionEvent:     function(action, details, validation){ return actionEvent(name, action, details, validation); },
@@ -128,11 +128,16 @@ const Manual = (function(){
                 return (allEvents.contains(e) && e.data.session === name);
             })
         };
+        retVal.act = retVal.doAct;   // support new style too (no doX, just x).
+        retVal.validate = retVal.doValidate;
+        retVal.note = retVal.doNote;
+
+        return retVal;
     }
 
     function createHtmlBookStep( e ) {
         let evtType = e.data.type;
-        let title = `<div style='font-size:smaller'>${e.data.session}</div>${TYPE_TO_TITLE[evtType]}`;
+        let title = `${e.data.session} - ${TYPE_TO_TITLE[evtType]}`;
         let body = "";
         let details = e.data.details;
         
