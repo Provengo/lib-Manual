@@ -4,9 +4,9 @@
 const Manual = (function(){
     const __LIB_SIG__ = "Manual";
     const TYPE_TO_TITLE = {
-        "action":     "🔨 Act",
-        "validation": "🔎 Validate",
-        "note":       "🗒️ Note"
+        "action":     "Act 🔨",
+        "validation": "Validate 🔎",
+        "note":       "Note 🗒️"
     };
 
     function evt(title, eventType, session) { 
@@ -60,6 +60,23 @@ const Manual = (function(){
         }
     }
 
+    function notBlank( aValue ) {
+         // Handle null and undefined
+        if (aValue == null) return false;
+        
+        // Handle different types
+        switch (typeof aValue) {
+            case "string":
+                return aValue.trim().length > 0;
+            case "object":
+                return Array.isArray(aValue) 
+                    ? aValue.length > 0 
+                    : Object.keys(aValue).length > 0;
+            default:
+                return true;
+        }
+    }
+
     function validationEvent(session, condition, details) {
         let e = evt("check: " + condition, "validation", session);
         e.data.condition = condition;
@@ -100,30 +117,36 @@ const Manual = (function(){
     }
     
     function makeSession(name) {
-        return {
-            noteEvent: function(text, details){ return noteEvent(name, text, details); },
-            doNote:    function(text, details){ return doNote(name, text, details); },
-            actionEvent: function(action, details, validation){ return actionEvent(name, action, details, validation); },
-            doAct:       function(action, details, validation){ return doAction(name, action, details, validation); },
+        const retVal = {
+            noteEvent:       function(text, details){ return noteEvent(name, text, details); },
+            doNote:          function(text, details){ return doNote(name, text, details); },
+            actionEvent:     function(action, details, validation){ return actionEvent(name, action, details, validation); },
+            doAct:           function(action, details, validation){ return doAction(name, action, details, validation); },
             validationEvent: function(condition, details){ return validationEvent(name, condition, details); },
             doValidate:      function(condition, details){ return doValidate(name, condition, details); },
             any: EventSet(`any ${name} event`, function(e){
                 return (allEvents.contains(e) && e.data.session === name);
             })
         };
+        retVal.act = retVal.doAct;   // support new style too (no doX, just x).
+        retVal.validate = retVal.doValidate;
+        retVal.note = retVal.doNote;
+
+        return retVal;
     }
 
     function createHtmlBookStep( e ) {
         let evtType = e.data.type;
-        let title = `${TYPE_TO_TITLE[evtType]}<div style='font-size:smaller'>${e.data.session}</div>`;
+        let title = `${e.data.session} - ${TYPE_TO_TITLE[evtType]}`;
         let body = "";
-        let details = e.data.details || "";
+        let details = e.data.details;
         
         switch (evtType) {
             case "action":
-                body = e.data.action
+                body = e.data.action;
+                details = notBlank(e.data.details) ? valueToHtml(e.data.details) : "";
                 if ( e.data.validation ){
-                    details +=`<div><label style="color:#070">🔎 Validate:</label> <span style="font-style: italic">${valueToHtml(e.data.validation)}</span></div>`;
+                    details +=`<div><span style="color:#070">Validation:</span> ${valueToHtml(e.data.validation)}</div>`;
                 }
                 break;
             case "validation":
@@ -133,7 +156,11 @@ const Manual = (function(){
                 body = e.data.text;
                 break;
         }
-        return (details.trim().length>0) ? StepElement(title, body, details) : StepElement(title, body);
+        if ( (typeof details) !== "undefined" ) {
+            return StepElement(title, body, valueToHtml(details) )
+        } else {
+            return StepElement(title, body);
+        }
     }
     
     function createXlsBookStep( e ) {
@@ -156,7 +183,7 @@ const Manual = (function(){
                 body = e.data.text;
                 break;
         }
-        return (details.trim().length>0) ? StepElement(title, body, details) : StepElement(title, body);
+        return notBlank(details) ? StepElement(title, body, details) : StepElement(title, body);
     }
 
     function addTestBookStep( e, format ) {
